@@ -3,153 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Search and Latest Events</title>
+    <title>Search Results</title>
+    <script async src="https://cse.google.com/cse.js?cx=627405803dbc54f9d">
+</script>
+<div class="gcse-search"></div>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .search-container {
-            text-align: center;
-            padding: 20px;
-        }
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .search-box input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .search-box input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-box input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
-            z-index: 1000;
-        }
-        .popup button {
-            margin-top: 10px;
-        }
-        .events-container {
-            text-align: center;
-            margin: 20px;
-        }
-        .event {
-            margin-bottom: 20px;
-        }
-        .event img {
-            max-width: 100%;
-            border-radius: 4px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .gsc-control-cse { width: 100%; }
     </style>
 </head>
 <body>
-    <div class="search-container">
-        <h1>Search the Web</h1>
-        <form id="search-form" class="search-box" onsubmit="performSearch(event)">
-            <input type="text" id="search-query" placeholder="Type your search query here..." required>
-            <input type="submit" value="Search">
-        </form>
-        <div id="search-results" style="margin-top: 20px;"></div>
-    </div>
-
-    <div id="language-popup" class="popup">
-        <h2>Select Language</h2>
-        <button onclick="setLanguage('en')">English</button>
-        <button onclick="setLanguage('ne')">Nepali</button>
-    </div>
-
+    <div class="gcse-search"></div>
     <div class="events-container" id="events-container">
-        <h2>Latest Events</h2>
-        <!-- Event elements will be dynamically added here -->
+        <!-- Events will be dynamically added here -->
     </div>
-
     <script>
-        // Show language popup
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('language-popup').style.display = 'block';
-            fetchEvents();
-        });
-
-        function setLanguage(lang) {
-            // Implement language setting here
-            alert(`Language set to ${lang}`);
-            document.getElementById('language-popup').style.display = 'none';
-        }
-
-        function performSearch(event) {
-            event.preventDefault();
-            const query = document.getElementById('search-query').value;
-            fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`)
-                .then(response => response.json())
-                .then(data => {
-                    displaySearchResults(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching search results:', error);
+        // Fetch and display events from The New York Times API (example)
+        async function fetchEvents() {
+            try {
+                const response = await fetch('https://api.nytimes.com/svc/topstories/v2/home.json?api-key=YOUR_API_KEY');
+                const data = await response.json();
+                const eventsContainer = document.getElementById('events-container');
+                
+                data.results.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.innerHTML = `
+                        <img src="${event.multimedia[0].url}" alt="${event.title}">
+                        <p><strong>${event.title}</strong> - ${event.abstract}</p>
+                    `;
+                    eventsContainer.appendChild(eventElement);
                 });
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
         }
 
-        function displaySearchResults(data) {
-            const resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = '<h2>Search Results</h2>';
-            data.RelatedTopics.forEach(result => {
-                if (result.Text) {
-                    const resultElement = document.createElement('div');
-                    resultElement.innerHTML = `<p><strong>${result.Text}</strong> - ${result.FirstURL}</p>`;
-                    resultsContainer.appendChild(resultElement);
-                }
-            });
-        }
-
-        function fetchEvents() {
-            fetch('https://api.nytimes.com/svc/topstories/v2/home.json?api-key=YOUR_API_KEY')
-                .then(response => response.json())
-                .then(data => {
-                    const eventsContainer = document.getElementById('events-container');
-                    data.results.forEach(event => {
-                        const eventElement = document.createElement('div');
-                        eventElement.classList.add('event');
-                        eventElement.innerHTML = `
-                            <img src="${event.multimedia[0] ? event.multimedia[0].url : 'placeholder.jpg'}" alt="${event.title}">
-                            <p><strong>${event.title}</strong> - ${event.abstract}</p>
-                        `;
-                        eventsContainer.appendChild(eventElement);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching events:', error);
-                });
-        }
+        fetchEvents();
     </script>
 </body>
 </html>
