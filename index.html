@@ -3,114 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latest Events</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .search-container {
-            text-align: center;
-            padding: 20px;
-        }
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .search-box input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .search-box input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-box input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 20px;
-            z-index: 1000;
-        }
-        .popup button {
-            margin-top: 10px;
-        }
-        .events-container {
-            text-align: center;
-            margin: 20px;
-        }
-        .event {
-            margin-bottom: 20px;
-        }
-        .event img {
-            max-width: 100%;
-            border-radius: 4px;
-        }
-    </style>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <script async src="https://cse.google.com/cse.js?cx=627405803dbc54f9d">
-</script>
-<div class="gcse-search"></div>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .gsc-control-cse { width: 100%; }
-    </style>
+    <title>Your Name - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
 </head>
 <body>
-    <div class="gcse-search"></div>
-    <div class="events-container" id="events-container">
-        <!-- Events will be dynamically added here -->
-    </div>
-    <script>
-        // Fetch and display events from The New York Times API (example)
-        async function fetchEvents() {
-            try {
-                const response = await fetch('https://api.nytimes.com/svc/topstories/v2/home.json?api-key=YOUR_API_KEY');
-                const data = await response.json();
-                const eventsContainer = document.getElementById('events-container');
-                
-                data.results.forEach(event => {
-                    const eventElement = document.createElement('div');
-                    eventElement.classList.add('event');
-                    eventElement.innerHTML = `
-                        <img src="${event.multimedia[0].url}" alt="${event.title}">
-                        <p><strong>${event.title}</strong> - ${event.abstract}</p>
-                    `;
-                    eventsContainer.appendChild(eventElement);
-                });
-            } catch (error) {
-                console.error('Error fetching events:', error);
-            }
-        }
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        fetchEvents();
-    </script>
+    <section id="home">
+        <h1>Hello, I'm Your SABJAN</h1>
+        <p>Aspiring Mechanical Engineer</p>
+    </section>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I am a Mechanical engineering student currently studying at IOE Purwanchal Engineering Campus, Dharan. I serve as the secretary of the Society of Mechanical Engineering Students (SOMES). I have gained knowledge in AutoCAD, SolidWorks, and programming languages like C.</p>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <!-- Add your projects here -->
+    </section>
+
+    <section id="contact">
+        <h2>contact</h2>
+        <p>Email: sabjan77dhakall@gmail.com</p>
+        <!-- Add more contact details if necessary -->
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    </footer>
 </body>
 </html>
